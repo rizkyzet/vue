@@ -27,10 +27,14 @@
             text-align: center;
         }
 
-        .active{
+        .active {
             background: salmon;
             border: 0;
             padding: 5px;
+        }
+
+        li {
+            list-style: none;
         }
     </style>
 
@@ -42,10 +46,44 @@
     <div id="app">
         <header>
             <img src="./img/logo.svg" alt="" width="80">
-            <h1 v-text='bilangan'></h1>
+            <h1 v-text='name'></h1>
+            <p><input type="text" v-model="name"></p>
+
+            <h3>Daftar Kelas ({{ kelas.length }})</h3>
+
+            <template v-if="kelas.length > 0">
+                <ul >
+                    <li v-for="(k,i) of kelas">{{ ++i }} - {{ k  }}</li>
+                </ul>
+            </template>
+
+            <ul v-else>
+                <li>kelas belum tersedia</li>
+            </ul>
+
+            <h3>Perulangan (1-5)</h3>
+            <ul>
+                <li v-for="x in 5">{{ x }}</li>
+            </ul>
+
+            <h3>Cari Bilangan Genap : {{ numbers }}</h3>
+            <ul>
+                <li v-for="x in cariBilanganGenap(numbers)">{{ x }}</li>
+            </ul>
+
+            <p v-text="kelas.join(', ')"></p>
+            <div>
+                <label><input type="checkbox" value="React" v-model="kelas">React</label>
+                <label><input type="checkbox" value="Vue" v-model="kelas">Vue</label>
+                <label><input type="checkbox" value="Angular" v-model="kelas">Angular</label>
+            </div>
+
             <p>Bilangan ini adalah bilangan {{ infoBilangan }}</p>
             <p>
                 <button v-on:click='handleClick'>Ditekan</button>
+            </p>
+            <p>
+                <button v-on:click="greet('Rizkyzet',$event)">Greet</button>
             </p>
             <img :src="gambar" width="500">
 
@@ -79,7 +117,9 @@
                 bilangan: 7,
                 link: `<a href="/basic/latihan1.html">Link</a>`,
                 gambar: './img/tokyo.jpg',
-                menu:'home'
+                menu: 'home',
+                kelas: ['Golang','PHP'],
+                numbers: [1, 2, 3, 4, 5]
             },
 
             methods: {
@@ -94,6 +134,11 @@
                     this.bilangan++
                     this.gambar = './img/van.JPG'
                 },
+                cariBilanganGenap: function (data) {
+                    return data.filter((val) => {
+                        return val % 2 == 0
+                    })
+                },
                 cobaPromise: function () {
                     this.name = 'loading...'
                     const propertyBaru = () => {
@@ -107,6 +152,11 @@
                         console.log(data)
                         this.name = data
                     })
+                },
+                greet :function(nama,event){
+
+                    alert(`Hello ${nama}`)
+                    alert(`${event.target.tagName}`)
                 }
             },
             computed: {

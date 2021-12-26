@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <title>My Excercise</title>
+</head>
+
+<body>
+
+
+    <div id="app">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-4 text-center border" v-text="greeting()"></h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <template v-for="(value,index) in myObject2">
+                        <ul>
+                            <li>{{ value.title }}</li>
+                            <li>{{ value.author }}</li>
+                            <li>{{ value.publishedAt }}</li>
+                        </ul>
+                    </template>
+                </div>
+                <div class="col">
+                    <input v-bind:type="inputPassword.type"><button v-on:click='showHiddenPassword'><i v-bind:class="inputPassword.icon"></i></button>
+                    {{ inputPassword }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                firstName: 'Mochamad',
+                lastName: 'Rizky',
+                myObject: {
+                    title: 'How to do lists in Vue',
+                    author: 'Jane Doe',
+                    publishedAt: '2016-04-10'
+                },
+                myObject2: [{
+                        title: 'How to do lists in Vue',
+                        author: 'Jane Doe',
+                        publishedAt: '2016-04-10'
+                    }, {
+                        title: 'How to do lists in Vue',
+                        author: 'Rizky Doe',
+                        publishedAt: '2011-04-11'
+                    },
+                    {
+                        title: 'How to do lists in Vue',
+                        author: 'Rizky Doe',
+                        publishedAt: '2011-04-11'
+                    },
+                ],
+                inputPassword: {
+                    type:'password',
+                    icon:'bi bi-eye'
+                },
+            },
+            methods: {
+                greeting() {
+                    return `Hello World!, My Name ${this.fullName}`
+                },
+                showHiddenPassword() {
+                    if (this.inputPassword.type === 'password') {
+                        this.inputPassword.type='text'
+                        this.inputPassword.icon='bi bi-eye-slash'
+                    } else {
+                        this.inputPassword.type='password'
+                        this.inputPassword.icon='bi bi-eye'
+                    }
+                }
+            },
+            computed: {
+                fullName() {
+                    return `${this.firstName} ${this.lastName}`
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
