@@ -47,12 +47,14 @@
         <header>
             <img src="./img/logo.svg" alt="" width="80">
             <h1 v-text='name'></h1>
-            <p><input type="text" v-model="name"></p>
+
+            <h3>Form Submit</h3>
+            <p><input type="text" placeholder="Nama Kelas" v-on:keyup.enter="submit" v-model="kelasBaru"></p>
 
             <h3>Daftar Kelas ({{ kelas.length }})</h3>
 
             <template v-if="kelas.length > 0">
-                <ul >
+                <ul>
                     <li v-for="(k,i) of kelas">{{ ++i }} - {{ k  }}</li>
                 </ul>
             </template>
@@ -91,9 +93,9 @@
                 The Prgressive Javascript Framework
             </p>
 
-            <button v-bind:class="{active:menu === 'home'}" v-on:click='menu = "home"'>Home</button>
-            <button v-bind:class="{active:menu === 'about'}" v-on:click='menu = "about"'>About</button>
-            <button v-bind:class="{active:menu === 'blog'}" v-on:click='menu = "blog"'>Blog</button>
+            <a v-bind:class="{active:menu === 'home'}" href="#" v-on:click.prevent='gantiMenu("home")'>Home</a>
+            <a v-bind:class="{active:menu === 'about'}" href="#" v-on:click='gantiMenu("about",$event)'>About</a>
+            <a v-bind:class="{active:menu === 'blog'}" href="#" v-on:click='gantiMenu("blog",$event)'>Blog</a>
 
         </header>
 
@@ -118,10 +120,10 @@
                 link: `<a href="/basic/latihan1.html">Link</a>`,
                 gambar: './img/tokyo.jpg',
                 menu: 'home',
-                kelas: ['Golang','PHP'],
-                numbers: [1, 2, 3, 4, 5]
+                kelas: ['Golang', 'PHP'],
+                numbers: [1, 2, 3, 4, 5],
+                kelasBaru: ''
             },
-
             methods: {
                 getName: function () {
                     return `Hello, ${this.name}`
@@ -153,10 +155,18 @@
                         this.name = data
                     })
                 },
-                greet :function(nama,event){
+                greet: function (nama, event) {
 
                     alert(`Hello ${nama}`)
                     alert(`${event.target.tagName}`)
+                },
+                gantiMenu: function (menu) {
+                    this.menu = menu
+                },
+                submit: function (e) {
+                    let text = event.target.value
+                    this.kelas.unshift(this.kelasBaru)
+                    this.kelasBaru = ''
                 }
             },
             computed: {

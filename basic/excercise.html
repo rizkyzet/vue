@@ -36,9 +36,56 @@
                     </template>
                 </div>
                 <div class="col">
-                    <input v-bind:type="inputPassword.type"><button v-on:click='showHiddenPassword'><i v-bind:class="inputPassword.icon"></i></button>
-                    {{ inputPassword }}
+                    <div class="row">
+                        <div class="col">
+                            <input v-bind:type="inputPassword.type"><button v-on:click='showHiddenPassword'><i
+                                    v-bind:class="inputPassword.icon"></i></button>
+                            {{ inputPassword }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col">
+                            <ul v-for="data in dataSelected">
+                                <li>{{ data.value }} - {{ data.text }}</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li v-for="data in dataSelected">{{ data.value }} - {{ data.text }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="col-4" v-model='keyword'>
+                        <template v-if="keyword.length>0">
+                            <div class="col-4">
+                                <template v-if="searchResult.length>0">
+                                    <ul>
+                                        <li v-for="val in searchResult">{{ val.judul }}</li>
+                                    </ul>
+                                </template>
+                                <template v-else>
+                                    <small>Not Found</small>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+
+                <div class="row mt-5">
+                    <div class="col">
+                        
+                        <navbar-component v-bind:qty="qtyCart"></navbar-component>
+                        <product-component  v-on:add-to-cart='updateQty'></product-component>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -53,58 +100,8 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script>
-        const vm = new Vue({
-            el: '#app',
-            data: {
-                firstName: 'Mochamad',
-                lastName: 'Rizky',
-                myObject: {
-                    title: 'How to do lists in Vue',
-                    author: 'Jane Doe',
-                    publishedAt: '2016-04-10'
-                },
-                myObject2: [{
-                        title: 'How to do lists in Vue',
-                        author: 'Jane Doe',
-                        publishedAt: '2016-04-10'
-                    }, {
-                        title: 'How to do lists in Vue',
-                        author: 'Rizky Doe',
-                        publishedAt: '2011-04-11'
-                    },
-                    {
-                        title: 'How to do lists in Vue',
-                        author: 'Rizky Doe',
-                        publishedAt: '2011-04-11'
-                    },
-                ],
-                inputPassword: {
-                    type:'password',
-                    icon:'bi bi-eye'
-                },
-            },
-            methods: {
-                greeting() {
-                    return `Hello World!, My Name ${this.fullName}`
-                },
-                showHiddenPassword() {
-                    if (this.inputPassword.type === 'password') {
-                        this.inputPassword.type='text'
-                        this.inputPassword.icon='bi bi-eye-slash'
-                    } else {
-                        this.inputPassword.type='password'
-                        this.inputPassword.icon='bi bi-eye'
-                    }
-                }
-            },
-            computed: {
-                fullName() {
-                    return `${this.firstName} ${this.lastName}`
-                }
-            }
-        })
-    </script>
+    <script src="./myScript.js"></script>
+   
 
 </body>
 

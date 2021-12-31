@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Vue Beginners</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <header-component nama="vuejs"></header-component>
+
+        <nav>
+            <router-link to="/">Home</router-link>
+            <router-link to="/about">About</router-link>
+            <router-link to="/kelas">Kelas</router-link>
+        </nav>
+
+        <main>
+            <router-view v-bind:items="kelas" v-on:submit-kelas="submitKelas" v-on:hapus-kelas="hapusKelas">
+            </router-view>
+            <!-- <kelas v-bind:items="kelas" v-on:submit-kelas="submitKelas" v-on:hapus-kelas="hapusKelas"></kelas> -->
+        </main>
+
+        <footer-component>
+            <p>Copyright 2020</p>
+        </footer-component>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-database.js"></script>
+    <script src="firebase.js"></script>
+    <script src="component.js"></script>r
+    <script src="router.js"></script>
+    <script>
+        const vm = new Vue({
+            router,
+            components: {
+                'home': Home
+            },
+            data: {
+                kelas: [],
+                kelasBaru: ''
+            },
+            created() {
+
+                kelasRef.on('value', this.resulData, this.errorData)
+                console.log('created')
+            },
+            methods: {
+                resulData(items) {
+                    this.kelas = []
+                    items.forEach(item => {
+                        let data = {
+                            id: item.key,
+                            judul: item.val().judul,
+                            deskripsi: item.val().deskripsi,
+                            gambar: item.val().gambar
+                        }
+
+                        this.kelas.push(data)
+                    })
+                },
+                errorData(err) {
+                    console.log(err)
+                },
+                hapusKelas: function (id) {
+                    db.ref('/kelas/' + id).remove()
+
+                    swal({
+                        text: 'Data kelas berhasil dihapus',
+                        icon: 'warning'
+                    })
+                },
+                submitKelas(data) {
+
+
+                    kelasRef.push({
+                        judul: data.judul,
+                        deskripsi: data.deskripsi,
+                        gambar: data.gambar
+                    })
+
+                    swal({
+                        title: this.kelas.judul,
+                        text: 'Data kelas berhasil disimpan',
+                        icon: 'success'
+                    })
+                }
+            },
+            computed: {
+
+            }
+        })
+
+        vm.$mount('#app')
+    </script>
+</body>
+
+</html>

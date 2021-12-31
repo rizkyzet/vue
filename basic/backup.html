@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 5;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        #app {
+            margin: 100px auto
+        }
+
+        header,
+        footer {
+            text-align: center;
+        }
+
+        .active {
+            background: salmon;
+            border: 0;
+            padding: 5px;
+        }
+
+        li {
+            list-style: none;
+        }
+    </style>
+
+    <title>Vue Beginners</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <header-component nama="vuejs" gambar="./img/logo.svg"></header-component>
+
+        <main>
+            <home></home>
+            <kelas v-bind:items="kelas" v-bind:input="kelasBaru" v-on:hapus-kelas="hapusKelas"></kelas>
+        </main>
+
+        <footer-component></footer-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+
+    <script>
+        const Home = {
+            template: `<div>Home</div`
+        }
+
+        Vue.component('header-component', {
+            props: ['nama', 'gambar'],
+
+            template: `
+            <header>
+                <img v-bind:src="gambar" alt="" width="200">
+                <p>
+                  {{ 'Hello, '+nama }}  
+                </p>
+            </header>
+            `,
+            data: function () {
+                return {
+                    pesan: 'Hello, Component!'
+                }
+            }
+        })
+
+        Vue.component('footer-component', {
+            template: `
+            <footer id="footer">
+                <p>Copyright 2020</p>
+            </footer>
+            `
+        })
+
+        Vue.component('kelas', {
+            props: ['items', 'input'],
+            template: `
+            <div>      
+                <h3>Tambah Kelas.</h3>
+                <p><input type="text" placeholder="Nama Kelas" v-on:keyup.enter="submit" v-model="input"></p>
+                <hr>
+                <h3>Daftar Kelas ({{ items.length }})</h3>
+    
+                <template v-if="items.length > 0">
+                    <ul>
+                        <li v-for="(k,i) of items">{{ i+1 }} - {{ k  }}
+                            <a href="" v-on:click.prevent="$emit('hapus-kelas',i)">Hapus</a>
+                            </li>
+                    </ul>
+                </template>
+    
+                <ul v-else>
+                    <li>kelas belum tersedia</li>
+                </ul>
+            </div>
+            `,
+            data: function () {
+                return {
+
+                }
+            },
+            methods: {
+                submit: function () {
+                    this.items.unshift(this.input)
+                    this.input = ''
+                }
+            }
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            components: {
+                'home': Home
+            },
+            data: {
+                kelas: ['Golang', 'PHP'],
+                kelasBaru: ''
+            },
+
+            methods: {
+                hapusKelas: function (index) {
+                   this.kelas.splice(index,1)
+                }
+            },
+            computed: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

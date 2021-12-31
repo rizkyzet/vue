@@ -1,0 +1,31 @@
+        body {
+            margin: 5;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        #app {
+            margin: 100px auto
+        }
+
+        header,
+        footer {
+            text-align: center;
+        }
+
+        .active {
+            background: salmon;
+            border: 0;
+            padding: 5px;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .input-group {
+            margin-bottom: 5px;
+        }
